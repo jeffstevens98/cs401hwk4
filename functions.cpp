@@ -26,12 +26,29 @@ double Easom (double x1, double x2){
   return ret;
 }
 
+double Rastrigin (double x1, double x2){
+  double ret = 20;
+  double temp1 = pow(x1, 2) - (10*cos(2*PI*x1));
+  double temp2 = pow(x2, 2) - (10*cos(2*PI*x2));
+  ret = ret + temp1 + temp2;
+  return ret;
+}
+
+double Sphere (double x[10]){
+  double ret = 0;
+  for (int i = 0; i < 10; i++){
+    ret = ret + pow(x[i], 2);
+  }
+  return ret;
+}
 
 
 
 int main(){
   printf("Ackley: %f\n", Ackley(0,0));
-  printf("Easom: %f\n", Easom(0,0));
-
+  printf("Easom: %f\n", Easom(PI,PI));
+  printf("Rast: %f\n", Rastrigin(0,0));
+  double x[10] = {0,0,0,0,0,0,0,0,0,0};
+  printf("Sphere: %f\n", Sphere(x));
   return 0;
 }
