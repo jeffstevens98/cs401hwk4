@@ -8,32 +8,37 @@
 #define PI 3.14159265
 #define E 2.718281828
 
-double Ackley (double x, double y){
+//2 Dimensions, decision space = [-32,32]
+double Ackley (double x[2]){
   double ret = -20;
   double temp;
   double temp2;
-  temp = exp(-0.2*sqrt(0.5*(pow(x,2)*pow(y,2))));
-  temp2 = exp(0.5*(cos(2*PI*x) + cos(2*PI*y)));
+  temp = exp(-0.2*sqrt(0.5*(pow(x[0],2)*pow(x[1],2))));
+  temp2 = exp(0.5*(cos(2*PI*x[0]) + cos(2*PI*x[1])));
   ret = ret * temp;
   ret = ret - temp2;
   ret = ret + E + 20;
   return ret;
 }
 
-double Easom (double x1, double x2){
+//2 Dimensions, decision space = [-5.12, 5.12]
+double Easom (double x[2]){
   double ret;
-  ret = -cos(x1)*cos(x2)*exp(-pow(x1-PI, 2)-(pow(x2-PI, 2)));
+  ret = -cos(x[0])*cos(x[1])*exp(-pow(x[0]-PI, 2)-(pow(x[1]-PI, 2)));
   return ret;
 }
 
-double Rastrigin (double x1, double x2){
+//2 Dimensions, decision space = [-100,100]
+double Rastrigin (double x[2]){ //if you want to scale up, add a dimension parm and set dim equal to it
   double ret = 20;
-  double temp1 = pow(x1, 2) - (10*cos(2*PI*x1));
-  double temp2 = pow(x2, 2) - (10*cos(2*PI*x2));
-  ret = ret + temp1 + temp2;
+  int dim = 2; //can be changed if want to scale up
+  for (int i = 0; i < dim; i++){
+    ret = ret + pow(x[0], dim) - 10 * cos(2*PI*x[i]);
+  }
   return ret;
 }
 
+//10 Dimensions, decision space = [-25,25]
 double Sphere (double x[10]){
   double ret = 0;
   for (int i = 0; i < 10; i++){
@@ -42,13 +47,25 @@ double Sphere (double x[10]){
   return ret;
 }
 
+//10 Dimensions, decision space = [1,-1]
+double SumOfPowers (double x[10]){
+  double ret = 0;
+  for (int i = 1; i <= 10; i++){
+    ret = ret + pow(x[i], i);
+  }
+  return ret;
+}
 
-
+/*
 int main(){
-  printf("Ackley: %f\n", Ackley(0,0));
-  printf("Easom: %f\n", Easom(PI,PI));
-  printf("Rast: %f\n", Rastrigin(0,0));
-  double x[10] = {0,0,0,0,0,0,0,0,0,0};
-  printf("Sphere: %f\n", Sphere(x));
+  double x1[2] = {0,0};
+  printf("Ackley: %f\n", Ackley(x1));
+  double x2[2] = {PI,PI};
+  printf("Easom: %f\n", Easom(x2));
+  printf("Rast: %f\n", Rastrigin(x1));
+  double x3[10] = {0,0,0,0,0,0,0,0,0,0};
+  printf("Sphere: %f\n", Sphere(x3));
+  printf("SOP: %f\n", SumOfPowers(x3));
   return 0;
 }
+*/
