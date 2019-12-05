@@ -43,7 +43,7 @@ double Sphere (double x[10]){
 }
 
 
-
+/*
 int main(){
   printf("Ackley: %f\n", Ackley(0,0));
   printf("Easom: %f\n", Easom(PI,PI));
@@ -52,3 +52,4 @@ int main(){
   printf("Sphere: %f\n", Sphere(x));
   return 0;
 }
+*/
