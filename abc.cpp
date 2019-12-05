@@ -46,18 +46,47 @@ int randomBeeWithException(int exception, int range)
 }
 
 
-vector<double> rouletteSelection(vector< vector<double> > solutionPopulation)
+vector<double> rouletteSelection(vector< vector<double> > solutionPopulation, vector<double> fitnesses)
 /* Returns a solution from the population of solutions based upon a selection where the  probability of selection is dependent upon the fitness of a solution.
  * solutionPopulation - the solutions that the selection will be performed upon
+ * fitnesses - a vector of each fitness value of each solution
  */
 {
+	//Sum up all the fitnesses
 	double sumOfAllFitnesses = 0;
-	for(int i = 0; i < solutionPopulation.size(); i++)
+	for(int i = 0; i < fitnesses.size(); i++)
 	{
-		return 0;
-		//Think about it: we might have to call our fitness function here. It would be bad for business to pass a function pointer into another function. Maybe pass
-		// a vec of fitnesses instead of the solution population? Maybe pass both?
+		sumOfAllFitness += fitnesses[i];
 	}
+	//Find the probability of each solution to be selected, also create ranges of possible probabilities to select from
+	vector<double> probabilities;
+	probabilities.resize(solutionPopulation.size());
+	double upperBoundOfProbability = 0;
+	vector< vector<double> > probabilityRanges;
+	probabilityRanges.resize(solutionPopulation.size())
+	vector<double> nestedVec;
+	nestedVec.resize(2);
+	for(int i = 0; i < probabilities.size(); i++)
+	{
+		probabilities[i] = (fitnesses[i])/(sumOfAllFitnesses);
+		probabilityRanges[i].push_back(nestedVec);
+		probabilityRanges[i][0] = upperBoundOfProbability;
+		probabilityRanges[i][1] = upperBoundOfProbability + probability[i];
+		upperBoundOfProbability += probabiliity
+	}
+	//Select a random number between zero and one
+	double random = static_cast <double> (rand() /( static_cast <double> (RAND_MAX/(1)));
+	int chosenIndex = -1; //the index that will be chosen
+	//Iterate through our ranges of probabilities to pick the correct one
+	for(int i = 0; i < probabilityRanges.size(); i++)
+	{
+		if ((random > probabilityRanges[i][0]) && (random < probabilityRanges[i][1]))
+		{
+			chosenIndex = i; //this is the index of the solution that we will select
+		}
+	}
+	
+	return solutionPopulation[i];
 }
 
 
@@ -98,6 +127,11 @@ double abcAlgorithm(double (*fitnessFunction)(), double searchSpaceLowerBound, d
 	
 	//Main Algorithm - optimization of the population of solution population
 	int iter = 0;
+	vector<int> foodSourceLifespans;//The amount of iterations each food source has gone through without improving. After a set limit, these food sources will be discarded.
+	foodSourceLifespans.resize(numberOfEmployedBees);
+	int foodSourceLifespanLimit = 10; //The maximum amount of iterations a food source is allowed to be a part of the population without improving.
+	vector<double> fitnesses; //vector of all of the fitnesses of the employed bee population
+	fitnesses.resize(numberOfEmployedBees);
 	while(iter < 100) //tentative aspiration critera
 	{
 		//Each employed bee conducts a local search for a new food source based upon their current saved food source
@@ -109,13 +143,27 @@ double abcAlgorithm(double (*fitnessFunction)(), double searchSpaceLowerBound, d
 			employedBees[eB][randomDimension] = employedBees[eB][randomDimension] + (betweenNeg1and1 * (employedBees[eB][randomDimension] - employedBees[randomBee][randomDimension]);
 		}
 		//Now, the onlooker bees learn about each food source from each of the employed bees. The onlooker bees then decide which food source they want to visit based on roulette selection.
+		//Evaluate fitnesses of the employed bees first
+		for(int eB = 0; eB < numberOfEmployedBees; eB++)
+		{
+			fitnesses[eB] = fitnessFunction(employedBees[eB]);
+		}
 		for(int oB = 0; oB < numberOfOnlookerBees; oB++)
 		{
-			onlookerBee[oB] = rouletteSelection(employedBees);
+			onlookerBees[oB] = rouletteSelection(employedBees,fitnesses);
 		}
-		//Things to work on next: Scout Bee Phase and then making the onlooker bees into the employed bees by the end of the iteration
+		//If a solution has existed within our population for longer than the allowed food source lifespan, it is discarded and a scout bee will find a new one.
+		////////////////////
+		//////////////////// work on this right here, champ!
+		////////////////////
+		//Send the onlookers bees out as employed bees for the next iteration of the algorithm.
+		employedBees = onlookerBees;
 	}
-	
+	//When the main iterations of the algorithm are complete, we use a greedy selection to return our best solution from the population.
+	for(int eB = 0; eB < //fitnesses.size(); eB++)
+	{
+		////
+	}
 	return bestSolution;
 }
 
