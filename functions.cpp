@@ -22,15 +22,15 @@ double Ackley (double x[2]){
 }
 
 double Ackley2 (double * x, int cnt){
-  double ret = -20;
+  double ret = 0;
   double temp = 0;
   double temp2 = 0;
   for (int i = 0; i < 10; i++){
     temp = temp + 0.5*(pow(x[i],2));
     temp2 = temp2 + (1/cnt)*cos(2*PI*x[i]);
   }
-  ret = ret * temp;
-  ret = ret - temp2;
+  ret = ret - 20*exp(-0.2*sqrt(temp));
+  ret = ret - exp(temp2);
   ret = ret + E + 20;
   return ret;
 }
@@ -100,7 +100,7 @@ double SumOfPowers2 (double * x, int cnt){
 int main(){
   double x1[2] = {0,0};
   double x2[2] = {PI,PI};
-  double x3[10] = {0,0,0,0,0,0,0,0,0,0};
+  double x3[10] = {-10,0,0,0,-10,-32,0,0,0,0};
   printf("Ackley: %f\n", Ackley(x1));
   printf("Ackley2: %f\n", Ackley2(x3, 10));
   printf("Easom: %f\n", Easom(x2));
